@@ -4,7 +4,6 @@ import shutil
 
 
 def subprocessToList(command, returnError=False):
-    """ wrapper for a subprocess command """
     p = subprocess.Popen(
         [command], stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
     )
@@ -27,6 +26,7 @@ def isFileEmpty(file):
 
 def copyFilesInList(listIn, copyLocation):
     for element in listIn:
+        print("copying " + element)
         shutil.copy2(element, copyLocation)
 
 
@@ -45,18 +45,26 @@ def fileDifference(file1, file2):
         return subprocessToList(grepCommand)
 
 
-dirOut = "sandbox/flattenSyncTest/B/"
-excludeList = "info/excludeCopy"
-copyList = "info/filesCopy"
-# grep -v -f info/excludeCopy info/filesCopy
-# grep -v -F -x -f info/excludeCopy info/filesCopy
-newMoves = fileDifference(excludeList, copyList)
+def copyController(copyList, excludeList, dirOut):
 
-if len(newMoves) != 0:
-    print("Moving files\n")
-    copyFilesInList(newMoves, dirOut)
-    print("Updating excludes list\n")
-    appendListToFile(excludeList, newMoves)
-    print("Finished\n")
-else:
-    print("Up to date, no moves.")
+    newMoves = fileDifference(excludeList, copyList)
+
+    if len(newMoves) != 0:
+        print("Moving files\n")
+        copyFilesInList(newMoves, dirOut)
+        print("Updating excludes list\n")
+        appendListToFile(excludeList, newMoves)
+        print("Finished\n")
+    else:
+        print("Up to date, no moves.")
+
+
+# print(fileDifference("info/excludeCopy", "info/filesCopy"))
+
+# copyController(
+#    dirOut="sandbox/flattenSyncTest/B/",
+#    excludeList="info/excludeCopy",
+#    copyList="info/filesCopy",
+# )
+
+# print(fileDifference("info/excludeCopy", "info/filesCopy"))

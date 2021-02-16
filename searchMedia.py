@@ -17,9 +17,18 @@ def findContent(rawMediaDir, extensions, fileToWrite):
     writer.close()
 
 
-pathMedia = "sandbox/flattenSyncTest/A/"
-# "sandbox/raw_photos"
-acceptedExtensions = (".mp4", ".jpeg", ".jpg", "png", "mp4", "wmv", "mov")
+def openFileToTuple(file):
+    tmp = []
+    with open(file, "r") as reader:
+        for row in reader.readlines():
+            row = row.replace("\n", "")
+            tmp.append(row)  # add row to list
+    return tuple(tmp)
 
-print("searching for files...")
-findContent(pathMedia, acceptedExtensions, "info/filesCopy")
+
+# acceptedExtensions = openFileToTuple("info/includeExtensions")
+# pathMedia = "sandbox/flattenSyncTest/A/"
+## "sandbox/raw_photos"
+#
+# print("searching for files...")
+# findContent(pathMedia, acceptedExtensions, "info/filesCopy")

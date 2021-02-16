@@ -2,8 +2,9 @@ import os
 import subprocess
 
 
-def removeTempFiles():
-    os.remove("info/filesCopy")
+def removeFile(tmpFile):
+    if os.path.exists(tmpFile):
+        os.remove(tmpFile)
 
 
 # remove spaces from excludeCopy
@@ -20,4 +21,7 @@ def removeBlankLines(file):
     os.replace(tmpFile, file)
 
 
-removeBlankLines("info/excludeCopy")
+# print("cleaning exclude list.")
+# removeBlankLines("info/excludeCopy")
+# print("removing temp files")
+# removeFile("info/filesCopy")

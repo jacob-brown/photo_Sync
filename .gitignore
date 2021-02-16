@@ -3,3 +3,4 @@ sandbox*
 .vscode
 filesCopy
 /info/*
+__pycache__
