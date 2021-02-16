@@ -11,16 +11,18 @@ def subprocessToList(command, returnError=False):
     out, er = p.communicate()
     out_string = out.decode()
     files = out_string.replace("\t", ":").split("\n")
-    files.remove("")
+    if "" in files:
+        files.remove("")
+
     if returnError:
         return files, er
     else:
         return files
 
 
-def fileDifference(file1, file2):
-    grpCommand = "grep -v -f  {} {}".format(file1, file2)
-    return subprocessToList(grpCommand)
+def isFileEmpty(file):
+    header = subprocessToList("head -5 " + file)
+    return not bool(header)
 
 
 def copyFilesInList(listIn, copyLocation):
@@ -34,12 +36,22 @@ def appendListToFile(file, listWrite):
             appender.write("\n" + newEntry)
 
 
+def fileDifference(file1, file2):
+    if isFileEmpty(file1):
+        catCommand = "cat {}".format(file2)
+        return subprocessToList(catCommand)
+    else:
+        grepCommand = "grep -v -f {} {}".format(file1, file2)
+        return subprocessToList(grepCommand)
+
+
 dirOut = "sandbox/flattenSyncTest/B/"
-copyList = "info/filesCopy"
 excludeList = "info/excludeCopy"
-
-
+copyList = "info/filesCopy"
+# grep -v -f info/excludeCopy info/filesCopy
+# grep -v -F -x -f info/excludeCopy info/filesCopy
 newMoves = fileDifference(excludeList, copyList)
+
 if len(newMoves) != 0:
     print("Moving files\n")
     copyFilesInList(newMoves, dirOut)

@@ -6,6 +6,10 @@ SynThing used to sync phone photos with computer.
 **Solution**: copy photos into a new dir, and have an "already copied list"
 **Notes**: 2 stages to allow for ease of searching, as SyncThing folder structure is hard to find photos
 
+## To Do
+* date of copy in excludeCopy
+    * or another file - json?
+* logs
 
 * DIR1 = SyncThing folder
 * DIR2 = _TO_ORGANISE_PHONE

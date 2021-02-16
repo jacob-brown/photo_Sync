@@ -13,7 +13,6 @@ def findContent(rawMediaDir, extensions, fileToWrite):
             if f.endswith(extensions):
                 fullPath = os.path.join(root, f)
                 writer.write(fullPath + "\n")
-                print(fullPath)
 
     writer.close()
 
@@ -22,4 +21,5 @@ pathMedia = "sandbox/flattenSyncTest/A/"
 # "sandbox/raw_photos"
 acceptedExtensions = (".mp4", ".jpeg", ".jpg", "png", "mp4", "wmv", "mov")
 
+print("searching for files...")
 findContent(pathMedia, acceptedExtensions, "info/filesCopy")
