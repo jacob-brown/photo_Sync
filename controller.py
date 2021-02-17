@@ -2,6 +2,8 @@ import sys
 import searchMedia
 import copyFiles
 import cleanUp
+import logger
+import logging
 from timer import timer
 from parseArguments import parseArguments
 
@@ -10,39 +12,40 @@ def main(args):
 
     timeKeeper = timer()
     timeKeeper.startTimer()
+    logger.initiateLogging()
 
-    ###
-    # 0. Clean at start
-    print("pre-run cleaning.")
+    logging.info("pre-run cleaning.")
     cleanUp.removeBlankLines(args.excludeFrom)
 
-    ####
-    # 1. run search media
-    print("\nSearch")
-    acceptedExtensions = searchMedia.openFileToTuple(args.supportedFileTypes)
+    logging.info("searching for files")
 
-    print("searching for files...")
-    searchMedia.findContent(args.inFile, acceptedExtensions, args.tempFile)
-
-    ####
-    # 2. run copy files
-    # when `dirOut=` etc. is removed it fails....
-    print("\nCopy")
-    copyFiles.copyController(
-        dirOut=args.outFile,
-        excludeList=args.excludeFrom,
-        copyList=args.tempFile,
+    searchMedia.searchController(
+        args.supportedFileTypes, args.inFile, args.tempFile
     )
 
-    ####
-    # 3. run clean-up
-    print("\nClean-up")
-    print("cleaning exclude list.")
+    logging.info("copying files")
+    newMoves = copyFiles.fileDifference(args.excludeFrom, args.tempFile)
+
+    if len(newMoves) != 0:
+        logging.info("Moving files")
+        copyFiles.copyFilesInList(newMoves, args.tempFile)
+        logging.info(logger.makeCopiedFileString(newMoves))
+
+        logging.info("Updating excludes list")
+        copyFiles.appendListToFile(args.excludeFrom, newMoves)
+        logging.info("Finished")
+    else:
+        logging.info("Up to date, no moves.")
+
+    logging.info("Cleaning up")
+    logging.info("cleaning exclude list.")
     cleanUp.removeBlankLines(args.excludeFrom)
-    print("removing temp files")
+    logging.info("removing temp files")
     cleanUp.removeFile(args.tempFile)
 
-    timeKeeper.timeCheck()
+    timeEnd = timeKeeper.timeCheck()
+    logging.info(timeEnd)
+    logging.info("DONE")
 
 
 if __name__ == "__main__":

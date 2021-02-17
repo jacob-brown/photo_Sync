@@ -1,6 +1,7 @@
 import subprocess
 import os
 import shutil
+from searchMedia import openFileToTuple
 
 
 def subprocessToList(command, returnError=False):
@@ -26,7 +27,6 @@ def isFileEmpty(file):
 
 def copyFilesInList(listIn, copyLocation):
     for element in listIn:
-        print("copying " + element)
         shutil.copy2(element, copyLocation)
 
 
@@ -37,23 +37,27 @@ def appendListToFile(file, listWrite):
 
 
 def fileDifference(file1, file2):
-    if isFileEmpty(file1):
-        catCommand = "cat {}".format(file2)
-        return subprocessToList(catCommand)
-    else:
-        grepCommand = "grep -v -f {} {}".format(file1, file2)
-        return subprocessToList(grepCommand)
+    file1Tuple = openFileToTuple(file1)
+    file2Tuple = openFileToTuple(file2)
+
+    diffResults = list(set(file1Tuple) ^ set(file2Tuple))
+
+    if "" in diffResults:
+        diffResults.remove("")
+
+    return diffResults
 
 
-def copyController(copyList, excludeList, dirOut):
-
-    newMoves = fileDifference(excludeList, copyList)
-
-    if len(newMoves) != 0:
-        print("Moving files\n")
-        copyFilesInList(newMoves, dirOut)
-        print("Updating excludes list\n")
-        appendListToFile(excludeList, newMoves)
-        print("Finished\n")
-    else:
-        print("Up to date, no moves.")
+# def copyController(copyList, excludeList, dirOut):
+#
+#    newMoves = fileDifference(excludeList, copyList)
+#
+#    if len(newMoves) != 0:
+#        print("Moving files\n")
+#        copyFilesInList(newMoves, dirOut)
+#        print("Updating excludes list\n")
+#        appendListToFile(excludeList, newMoves)
+#        print("Finished\n")
+#    else:
+#        print("Up to date, no moves.")
+#

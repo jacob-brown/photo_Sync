@@ -10,6 +10,7 @@ SynThing used to sync phone photos with computer.
 * date of copy in excludeCopy
     * or another file - json?
 * logs
+* when switching to a new destination dir, if the same exclude file is present it will copy all the old files
 
 * DIR1 = SyncThing folder
 * DIR2 = _TO_ORGANISE_PHONE

@@ -24,3 +24,9 @@ def openFileToTuple(file):
             row = row.replace("\n", "")
             tmp.append(row)  # add row to list
     return tuple(tmp)
+
+
+def searchController(supportedFileTypes, rawMediaDir, fileToWrite):
+    acceptedExtensions = openFileToTuple(supportedFileTypes)
+
+    findContent(rawMediaDir, acceptedExtensions, fileToWrite)
