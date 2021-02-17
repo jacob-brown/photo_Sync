@@ -24,9 +24,3 @@ def openFileToTuple(file):
             row = row.replace("\n", "")
             tmp.append(row)  # add row to list
     return tuple(tmp)
-
-
-# acceptedExtensions = openFileToTuple("info/includeExtensions")
-# pathMedia = "sandbox/flattenSyncTest/A/"
-# print("searching for files...")
-# findContent(pathMedia, acceptedExtensions, "info/filesCopy")

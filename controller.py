@@ -2,61 +2,48 @@ import sys
 import searchMedia
 import copyFiles
 import cleanUp
+from timer import timer
 from parseArguments import parseArguments
 
-args = parseArguments()
-
 ### Main ###
+def main(args):
 
-pathMedia = args.inFile
-# "sandbox/flattenSyncTest/A/" # "sandbox/raw_photos"
+    timeKeeper = timer()
+    timeKeeper.startTimer()
 
-pathOutput = args.outFile
-# "sandbox/flattenSyncTest/B/"
+    ###
+    # 0. Clean at start
+    print("pre-run cleaning.")
+    cleanUp.removeBlankLines(args.excludeFrom)
 
-pathExtension = args.supportedFileTypes  # "info/includeExtensions"
+    ####
+    # 1. run search media
+    print("\nSearch")
+    acceptedExtensions = searchMedia.openFileToTuple(args.supportedFileTypes)
 
-excludeListFile = args.excludeFrom  # "info/excludeCopy"
+    print("searching for files...")
+    searchMedia.findContent(args.inFile, acceptedExtensions, args.tempFile)
 
-tmpFile = args.tempFile  # "info/filesCopy"
+    ####
+    # 2. run copy files
+    # when `dirOut=` etc. is removed it fails....
+    print("\nCopy")
+    copyFiles.copyController(
+        dirOut=args.outFile,
+        excludeList=args.excludeFrom,
+        copyList=args.tempFile,
+    )
 
-###
-# 0. Clean at start
-print("pre-run cleaning.")
-cleanUp.removeBlankLines(excludeListFile)
+    ####
+    # 3. run clean-up
+    print("\nClean-up")
+    print("cleaning exclude list.")
+    cleanUp.removeBlankLines(args.excludeFrom)
+    print("removing temp files")
+    cleanUp.removeFile(args.tempFile)
 
-####
-# 1. run search media
-print("\nSearch")
-acceptedExtensions = searchMedia.openFileToTuple(pathExtension)
-
-print("searching for files...")
-searchMedia.findContent(pathMedia, acceptedExtensions, tmpFile)
-
-####
-# 2. run copy files
-# when `dirOut=` etc. is removed it fails....
-print("\nCopy")
-copyFiles.copyController(
-    dirOut=pathOutput, excludeList=excludeListFile, copyList=tmpFile
-)
-
-####
-# 3. run clean-up
-print("\nClean-up")
-print("cleaning exclude list.")
-cleanUp.removeBlankLines(excludeListFile)
-print("removing temp files")
-cleanUp.removeFile(tmpFile)
+    timeKeeper.timeCheck()
 
 
-# def main(some_args):
-#    do_stuff...
-#
-# def parse_arguments():
-#    argument_parse_code
-#    return arguments
-#
-# if __name__ == '__main__':
-#    arguments = parse_arguments()
-#    main(*arguments)
+if __name__ == "__main__":
+    main(parseArguments())
