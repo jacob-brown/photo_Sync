@@ -19,9 +19,3 @@ def removeBlankLines(file):
                 if line != "\n":
                     writer.write(line)
     os.replace(tmpFile, file)
-
-
-# print("cleaning exclude list.")
-# removeBlankLines("info/excludeCopy")
-# print("removing temp files")
-# removeFile("info/filesCopy")

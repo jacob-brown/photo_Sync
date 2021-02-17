@@ -28,7 +28,5 @@ def openFileToTuple(file):
 
 # acceptedExtensions = openFileToTuple("info/includeExtensions")
 # pathMedia = "sandbox/flattenSyncTest/A/"
-## "sandbox/raw_photos"
-#
 # print("searching for files...")
 # findContent(pathMedia, acceptedExtensions, "info/filesCopy")

@@ -57,14 +57,3 @@ def copyController(copyList, excludeList, dirOut):
         print("Finished\n")
     else:
         print("Up to date, no moves.")
-
-
-# print(fileDifference("info/excludeCopy", "info/filesCopy"))
-
-# copyController(
-#    dirOut="sandbox/flattenSyncTest/B/",
-#    excludeList="info/excludeCopy",
-#    copyList="info/filesCopy",
-# )
-
-# print(fileDifference("info/excludeCopy", "info/filesCopy"))

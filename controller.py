@@ -1,15 +1,24 @@
+import sys
 import searchMedia
 import copyFiles
 import cleanUp
+from parseArguments import parseArguments
 
-pathMedia = "sandbox/flattenSyncTest/A/"
-# "sandbox/raw_photos"
+args = parseArguments()
 
-pathOutput = "sandbox/flattenSyncTest/B/"
-pathExtension = "info/includeExtensions"
+### Main ###
 
-excludeListFile = "info/excludeCopy"
-tmpFile = "info/filesCopy"
+pathMedia = args.inFile
+# "sandbox/flattenSyncTest/A/" # "sandbox/raw_photos"
+
+pathOutput = args.outFile
+# "sandbox/flattenSyncTest/B/"
+
+pathExtension = args.supportedFileTypes  # "info/includeExtensions"
+
+excludeListFile = args.excludeFrom  # "info/excludeCopy"
+
+tmpFile = args.tempFile  # "info/filesCopy"
 
 ###
 # 0. Clean at start
@@ -39,3 +48,15 @@ print("cleaning exclude list.")
 cleanUp.removeBlankLines(excludeListFile)
 print("removing temp files")
 cleanUp.removeFile(tmpFile)
+
+
+# def main(some_args):
+#    do_stuff...
+#
+# def parse_arguments():
+#    argument_parse_code
+#    return arguments
+#
+# if __name__ == '__main__':
+#    arguments = parse_arguments()
+#    main(*arguments)
