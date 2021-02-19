@@ -1,7 +1,8 @@
 import subprocess
 import os
 import shutil
-from searchMedia import openFileToTuple
+from searchMedia import openFileToInto
+import numpy as np
 
 
 def subprocessToList(command, returnError=False):
@@ -37,8 +38,8 @@ def appendListToFile(file, listWrite):
 
 
 def fileDifference(file1, file2):
-    file1Tuple = openFileToTuple(file1)
-    file2Tuple = openFileToTuple(file2)
+    file1Tuple = openFileToInto(file1, tuple)
+    file2Tuple = openFileToInto(file2, tuple)
 
     diffResults = list(set(file1Tuple) ^ set(file2Tuple))
 
@@ -48,16 +49,15 @@ def fileDifference(file1, file2):
     return diffResults
 
 
-# def copyController(copyList, excludeList, dirOut):
-#
-#    newMoves = fileDifference(excludeList, copyList)
-#
-#    if len(newMoves) != 0:
-#        print("Moving files\n")
-#        copyFilesInList(newMoves, dirOut)
-#        print("Updating excludes list\n")
-#        appendListToFile(excludeList, newMoves)
-#        print("Finished\n")
-#    else:
-#        print("Up to date, no moves.")
-#
+def returnSuccessAndFailedCopies(destinationDir, sourceList):
+    boolResults = []
+    sourceList = np.array(sourceList)
+    for i in sourceList:
+        fullPath = os.path.join(destinationDir, os.path.basename(i))
+        outcome = os.path.exists(fullPath)
+        boolResults.append(outcome)
+
+    successes = sourceList[boolResults]
+    failures = sourceList[np.logical_not(boolResults)]
+
+    return successes, failures

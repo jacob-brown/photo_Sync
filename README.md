@@ -7,10 +7,10 @@ SynThing used to sync phone photos with computer.
 **Notes**: 2 stages to allow for ease of searching, as SyncThing folder structure is hard to find photos
 
 ## To Do
-* date of copy in excludeCopy
-    * or another file - json?
-* logs
+* What to do with failed copies?
 * when switching to a new destination dir, if the same exclude file is present it will copy all the old files
+    * run a new setup script?
+* if same filename exists in destination, rename using recursion
 
 * DIR1 = SyncThing folder
 * DIR2 = _TO_ORGANISE_PHONE
@@ -33,3 +33,5 @@ Permanent files
 
 Temporary files
 * `info/filesCopy`
+
+

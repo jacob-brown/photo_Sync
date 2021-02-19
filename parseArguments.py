@@ -16,8 +16,8 @@ def parseArguments():
 
     parser.add_argument(
         "-o",
-        "--output-file",
-        dest="outFile",
+        "--output-dir",
+        dest="outDir",
         type=str,
         required=True,
         help="",

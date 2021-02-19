@@ -15,7 +15,8 @@ def nameLogFile(logsPath, debug=False):
 
 def initiateLogging():
 
-    logFile = nameLogFile("sandbox/logs/", True)
+    # logFile = nameLogFile("sandbox/logs/", True) # debug
+    logFile = nameLogFile("sandbox/logs/")
 
     logging.basicConfig(
         filename=logFile,
@@ -26,14 +27,13 @@ def initiateLogging():
     )
 
 
-def makeCopiedFileString(listCopiedFiles):
-    logStringCopiedFiles = "copied files:\n"
+def makeCopiedFileString(headerString, listCopiedFiles):
+    logStringCopiedFiles = headerString + "\n"
     for copiedFile in listCopiedFiles:
         logStringCopiedFiles = logStringCopiedFiles + copiedFile + "\n"
     return logStringCopiedFiles
 
 
-# initiateLogging()
 # logging.info("I am some info")
 # logging.warning("I am some warning")
 # logging.error("I am some error")
