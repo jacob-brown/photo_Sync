@@ -27,11 +27,6 @@ def openFileToInto(file, type=list):
     return type(tmp)
 
 
-def searchController(supportedFileTypes, rawMediaDir, fileToWrite):
-    acceptedExtensions = openFileToInto(supportedFileTypes, tuple)
-    writeFoundContent(rawMediaDir, acceptedExtensions, fileToWrite)
-
-
 def checkFilesWereFound(tmpFileWithFilesToMove):
     foundFiles = openFileToInto(tmpFileWithFilesToMove)
 
