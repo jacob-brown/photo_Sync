@@ -1,7 +1,7 @@
 import controllers as ctr
 import logging
 import logger
-from parseArguments import parseArguments
+from parseArguments import parseRunArguments
 
 
 def main(args):
@@ -9,7 +9,7 @@ def main(args):
     # initiate timer and logger
     timeKeeper = ctr.timer()
     timeKeeper.startTimer()
-    logger.initiateLogging()
+    logger.initiateLogging(args)
 
     # body of copying
     ctr.preRunCleaning(args)
@@ -25,4 +25,4 @@ def main(args):
 
 
 if __name__ == "__main__":
-    main(parseArguments())
+    main(parseRunArguments())

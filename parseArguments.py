@@ -1,17 +1,67 @@
 import argparse
+import os
 
 
-def parseArguments():
+def parseSetUpArguments():
+    parser = argparse.ArgumentParser(description="Description of program")
+
+    parser.add_argument(
+        "-l",
+        "--log-dir",
+        dest="logDir",
+        type=str,
+        required=True,
+        help="",
+        metavar="",
+    )
+
+    parser.add_argument(
+        "-f",
+        "--info-dir",
+        dest="infoDir",
+        type=str,
+        required=True,
+        help="",
+        metavar="",
+    )
+
+    parser.add_argument(
+        "-c",
+        "--copy-history",
+        dest="copyHistory",
+        type=str,
+        default="copyHistory",
+        required=False,
+        help="",
+        metavar="",
+    )
+
+    parser.add_argument(
+        "-v",
+        "--valid-extensions",
+        dest="validExtensions",
+        type=str,
+        default="validExtensions",
+        required=False,
+        help="",
+        metavar="",
+    )
+
+    args = parser.parse_args()
+    return args
+
+
+def parseRunArguments():
     parser = argparse.ArgumentParser(description="Description of program")
 
     parser.add_argument(
         "-i",
-        "--input-file",
-        dest="inFile",
+        "--input-dir",
+        dest="inDir",
         type=str,
         required=True,
-        help="bam IN_BAM to have snps sampled from",
-        metavar="IN_BAM",
+        help="",
+        metavar="",
     )
 
     parser.add_argument(
@@ -25,22 +75,42 @@ def parseArguments():
     )
 
     parser.add_argument(
-        "-s",
-        "--supported-types-from",
-        dest="supportedFileTypes",
+        "-l",
+        "--log-dir",
+        dest="logDir",
         type=str,
-        default="info/includeExtensions",
         required=False,
         help="",
         metavar="",
     )
 
     parser.add_argument(
-        "-e",
-        "--exclude-from",
-        dest="excludeFrom",
+        "-f",
+        "--info-dir",
+        dest="infoDir",
         type=str,
-        default="info/excludeCopy",
+        required=False,
+        help="point to where are the misc. info files stored. Only works if defaults naming convention was used",
+        metavar="",
+    )
+
+    parser.add_argument(
+        "-v",
+        "--valid-extensions",
+        dest="validExtensions",
+        type=str,
+        default="validExtensions",
+        required=False,
+        help="",
+        metavar="",
+    )
+
+    parser.add_argument(
+        "-c",
+        "--copy-history",
+        dest="copyHistory",
+        type=str,
+        default="copyHistory",
         required=False,
         help="",
         metavar="",
@@ -51,13 +121,20 @@ def parseArguments():
         "--temp-file",
         dest="tempFile",
         type=str,
-        default="info/filesCopy",
+        default="tempFile",
         required=False,
         help="",
         metavar="",
     )
 
-    # define args
     args = parser.parse_args()
+    addInfoPathToMiscArgsIfGiven(args)
 
     return args
+
+
+def addInfoPathToMiscArgsIfGiven(args):
+    if args.infoDir:
+        args.tempFile = os.path.join(args.infoDir, args.tempFile)
+        args.copyHistory = os.path.join(args.infoDir, args.copyHistory)
+        args.validExtensions = os.path.join(args.infoDir, args.validExtensions)

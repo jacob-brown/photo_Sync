@@ -9,12 +9,12 @@ from timer import timer
 
 def preRunCleaning(args):
     logging.info("pre-run cleaning.")
-    cleanUp.removeBlankLines(args.excludeFrom)
+    cleanUp.removeBlankLines(args.copyHistory)
 
 
 def finalCleaning(args):
     logging.info("cleaning copy reference list.")
-    cleanUp.removeBlankLines(args.excludeFrom)
+    cleanUp.removeBlankLines(args.copyHistory)
 
     logging.info("removing all temporary files")
     cleanUp.removeFile(args.tempFile)
@@ -22,12 +22,8 @@ def finalCleaning(args):
 
 def searchController(args):
     logging.info("searching for files")
-    acceptedExtensions = searchMedia.openFileToInto(
-        args.supportedFileTypes, tuple
-    )
-    searchMedia.writeFoundContent(
-        args.inFile, acceptedExtensions, args.tempFile
-    )
+    acceptedExtensions = searchMedia.openFileToInto(args.validExtensions, tuple)
+    searchMedia.writeFoundContent(args.inDir, acceptedExtensions, args.tempFile)
 
 
 def copyFileController(args):
@@ -45,7 +41,7 @@ def copyFileController(args):
 
 
 def filesMatchingExtensionsFound(args):
-    filesToCopy = copyFiles.fileDifference(args.excludeFrom, args.tempFile)
+    filesToCopy = copyFiles.fileDifference(args.copyHistory, args.tempFile)
 
     if len(filesToCopy) != 0:
         newFilesFoundCopyRequired(filesToCopy, args)
@@ -75,5 +71,5 @@ def newFilesFoundCopyRequired(filesToCopy, args):
 
 def appendSuccessesToExcludeList(args, successMove):
     logging.info("updating excludes list")
-    copyFiles.appendListToFile(args.excludeFrom, successMove)
+    copyFiles.appendListToFile(args.copyHistory, successMove)
     logging.info("finished")

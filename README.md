@@ -2,35 +2,54 @@
 
 SynThing used to sync phone photos with computer.
 
-**Problem**: if photos are moved from the new sync dir (i.e. it is being organised), another will replace it 
+**Problem**: if photos are moved from the a sync dir (i.e. it is being organised), another will replace it 
 **Solution**: copy photos into a new dir, and have an "already copied list"
-**Notes**: 2 stages to allow for ease of searching, as SyncThing folder structure is hard to find photos
 
 ## To Do
 * What to do with failed copies? - assume they will run the following time???
-* when switching to a new destination dir, if the same exclude file is present it will copy all the old files
-    * run a new setup script?
+* add different extensions depending on file types
 
-* DIR1 = SyncThing folder
-* DIR2 = _TO_ORGANISE_PHONE
+# Examples
+## Partial Control - recommended 
+Default naming criteria has been used for the miscellaneous files (`--valid-extensions` and `--copy-history`).
+**Establish the environment**
+```
+python3 newEnv.py \
+        --log-dir "sandbox/flattenSyncTest/logs"\
+        --info-dir "sandbox/flattenSyncTest/info"
+```
 
+**Run the program**
+Only the location of the `--info-dir` is required, the program will use the default names.
 
-1. Walk through DIR1 and gather photos
-    1.1. list of accepted file types in ".gitignore" style file
-    1.2. Make list of files to copy
-2. Copy file to _TO_ORGANISE_PHONE
-    2.1. Having checked if file was in an already copied list
-        2.1.1. Name match and path match checks
-3. Check if move was successful 
-    4.1. TRUE: add file to already copied list
-    4.2. FALSE: error/resync
+```
+python3 main.py \
+    --input-dir "sandbox/flattenSyncTest/A" \
+    --output-dir "sandbox/flattenSyncTest/B" \
+    --log-dir "sandbox/flattenSyncTest/logs"\
+    --info-dir "sandbox/flattenSyncTest/info"
+```
+## Full Control
+i.e. no default naming criteria
+If the names of `--valid-extensions` and `--copy-history`  were specified in the set-up, they also need ot be specified here
 
+**Establish the environment**
+```
+python3 newEnv.py \
+        --log-dir "sandbox/flattenSyncTest/logs" \
+        --info-dir "sandbox/flattenSyncTest/info" \
+        --copy-history "historyFile" \
+        --valid-extensions "extensionsToUse"
+```
 
-Permanent files
-* `info/excludeCopy`
-* `info/includeExtensions` - update to include more file types
+**Run the program**
 
-Temporary files
-* `info/filesCopy`
-
-
+```
+python3 main.py \
+    --input-dir "sandbox/flattenSyncTest/A" \
+    --output-dir "sandbox/flattenSyncTest/B" \
+    --log-dir "sandbox/flattenSyncTest/logs"\
+    --valid-extensions "sandbox/flattenSyncTest/info/extensionsToUse" \
+    --copy-history "sandbox/flattenSyncTest/info/historyFile" \
+    --temp-file "sandbox/flattenSyncTest/info/tmpCopyFile" 
+```

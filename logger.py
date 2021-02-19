@@ -13,10 +13,10 @@ def nameLogFile(logsPath, debug=False):
         return os.path.join(logsPath, "debug.log")
 
 
-def initiateLogging():
+def initiateLogging(args):
 
     # logFile = nameLogFile("sandbox/logs/", True) # debug
-    logFile = nameLogFile("sandbox/logs/")
+    logFile = nameLogFile(args.logDir)
 
     logging.basicConfig(
         filename=logFile,
