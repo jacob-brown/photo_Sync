@@ -28,5 +28,4 @@ def openFileToTuple(file):
 
 def searchController(supportedFileTypes, rawMediaDir, fileToWrite):
     acceptedExtensions = openFileToTuple(supportedFileTypes)
-
     findContent(rawMediaDir, acceptedExtensions, fileToWrite)

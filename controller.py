@@ -19,10 +19,12 @@ def main(args):
 
     logging.info("searching for files")
 
+    # if returns empty file, i.e. no files with the extensions where found
     searchMedia.searchController(
         args.supportedFileTypes, args.inFile, args.tempFile
     )
 
+    # if up to date, i.e. no changes needed exit the program
     logging.info("copying files")
     newMoves = copyFiles.fileDifference(args.excludeFrom, args.tempFile)
 
@@ -30,7 +32,7 @@ def main(args):
         logging.info("Moving files")
         copyFiles.copyFilesInList(newMoves, args.tempFile)
         logging.info(logger.makeCopiedFileString(newMoves))
-
+        # check move was successful 
         logging.info("Updating excludes list")
         copyFiles.appendListToFile(args.excludeFrom, newMoves)
         logging.info("Finished")
