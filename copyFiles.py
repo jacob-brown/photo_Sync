@@ -1,8 +1,9 @@
 import subprocess
 import os
 import shutil
-from searchMedia import openFileToInto
 import numpy as np
+import re
+from searchMedia import openFileToInto
 
 
 def subprocessToList(command, returnError=False):
@@ -28,7 +29,37 @@ def isFileEmpty(file):
 
 def copyFilesInList(listIn, copyLocation):
     for element in listIn:
-        shutil.copy2(element, copyLocation)
+        destFileName = createNameRecursively(element, copyLocation)
+        shutil.copy2(element, destFileName)
+
+
+def doesFileExist(sourceFile, destination):
+    baseName = os.path.basename(sourceFile)
+    fullPath = os.path.join(destination, baseName)
+    return os.path.exists(fullPath)
+
+
+def checkForUnderScoreDigitExtension(stringIn):
+    name, ext = os.path.splitext(stringIn)
+    prevExt = name[-2:]  # get last 2 digits
+    p = re.compile(r"_\d")  # match underscore and digit
+    if bool(p.match(prevExt)):
+        stripUnderscore = name.rsplit("_", 1)[0]  # split from right
+        return stripUnderscore + ext
+    else:
+        return stringIn
+
+
+def createNameRecursively(sourceFile, copyLocation, counter=1):
+    baseName = os.path.basename(sourceFile)
+    name, ext = os.path.splitext(baseName)
+    noUnderScore = checkForUnderScoreDigitExtension(name)
+
+    if not doesFileExist(sourceFile, copyLocation):
+        return os.path.join(copyLocation, baseName)
+    else:
+        newName = noUnderScore + "_" + str(counter) + ext
+        return createNameRecursively(newName, copyLocation, counter + 1)
 
 
 def appendListToFile(file, listWrite):
