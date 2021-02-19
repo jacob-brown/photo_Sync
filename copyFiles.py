@@ -69,10 +69,10 @@ def appendListToFile(file, listWrite):
 
 
 def fileDifference(file1, file2):
-    file1Tuple = openFileToInto(file1, tuple)
-    file2Tuple = openFileToInto(file2, tuple)
+    file1Content = openFileToInto(file1, np.array)
+    file2Content = openFileToInto(file2, np.array)
 
-    diffResults = list(set(file1Tuple) ^ set(file2Tuple))
+    diffResults = np.setdiff1d(file2Content, file1Content)
 
     if "" in diffResults:
         diffResults.remove("")
