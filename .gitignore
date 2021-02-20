@@ -6,3 +6,4 @@ filesCopy
 __pycache__
 .pytest_cache
 tests/
+settingPeriodicRun.sh

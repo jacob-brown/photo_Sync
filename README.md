@@ -6,8 +6,9 @@ SynThing used to sync phone photos with computer.
 **Solution**: copy photos into a new dir, and have an "already copied list"
 
 ## To Do
-* What to do with failed copies? - assume they will run the following time???
 * add different extensions depending on file types
+## General Notes
+* when a file fails to run, it is left for the next run to try again
 
 # Examples
 ## Partial Control - recommended 
