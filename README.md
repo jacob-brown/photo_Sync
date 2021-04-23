@@ -47,7 +47,7 @@ mkdir -p sandbox/A/subdir1
 mkdir -p sandbox/B
 cd sandbox/A
 touch file1.jpg file2.jpg file3.jpg subdir1/file4.jpg subdir1/file5.jpg
-cd ../
+cd ../../
 ```
 
 ## Partial Control - recommended 
