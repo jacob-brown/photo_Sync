@@ -29,6 +29,7 @@ Python modules
 * Continuously run script (i.e. not having to add to task manager)
 ## General Notes
 * when a file fails to run, it is left for the next run to try again
+* Currently the "run program" section needs to be added to a periodic task manager/script running schedule 
 
 # Tutorial
 * Create dummy environment
@@ -69,6 +70,12 @@ python3 main.py \
     --log-dir "sandbox/logs"\
     --info-dir "sandbox/info"
 ```
+
+**Check**
+* Delete/Move files from dir `B`
+* rerun the **Run the program** code
+* files should not re-appear
+
 ## Full Control
 i.e. no default naming criteria
 If the names of `--valid-extensions` and `--copy-history`  were specified in the set-up, they also need ot be specified here
