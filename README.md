@@ -35,13 +35,19 @@ Python modules
 * Copy files from Folder A (nested) to folder B (flat).
 * If the photos in folder B are removed, they will not be copied again. 
 
+## Clone and cd
+``` 
+git clone https://github.com/jacob-brown/photo_Sync.git
+cd photo_Sync
+```
+
 ## Create a dummy environment
 ```
 mkdir -p sandbox/A/subdir1
 mkdir -p sandbox/B
 cd sandbox/A
 touch file1.jpg file2.jpg file3.jpg subdir1/file4.jpg subdir1/file5.jpg
-cd ../../ 
+cd ../
 ```
 
 ## Partial Control - recommended 
