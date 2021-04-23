@@ -75,6 +75,7 @@ python3 main.py \
 * Delete/Move files from dir `B`
 * rerun the **Run the program** code
 * files should not re-appear
+* New files added to `A` should sync to `B`
 
 ## Full Control
 i.e. no default naming criteria
